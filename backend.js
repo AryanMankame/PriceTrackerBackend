@@ -57,30 +57,31 @@ app.post('/register',(req, res) => {
   //     })
   //     .catch(err => console.log('unable to register'));
   // });
-  database('register').where({
-    email:email,
-    Password:password,
-  }).then((data) => {
-      if(data.length === 0){
-      console.log('data ->',data);
-      database('register').insert({
-        email:email,
-        Password:password,
-        name:name
-      }).then(response => {console.log('data added to register' + response)});
-      database('login').insert({
-        email:email,
-        Password:password,
-      }).then(response => {res.json('Successful')}).catch(err => console.log('error faced',err));
-    }
-    else{
-      console.log('already exists')
-      console.log(data);
-      res.json('the user already exists');
-    }
-  })
-  .catch(err => {
-    console.log('error found => ', err);
-  });
+  // database('register').where({
+  //   email:email,
+  //   Password:password,
+  // }).then((data) => {
+  //     if(data.length === 0){
+  //     console.log('data ->',data);
+  //     database('register').insert({
+  //       email:email,
+  //       Password:password,
+  //       name:name
+  //     }).then(response => {console.log('data added to register' + response)});
+  //     database('login').insert({
+  //       email:email,
+  //       Password:password,
+  //     }).then(response => {res.json('Successful')}).catch(err => console.log('error faced',err));
+  //   }
+  //   else{
+  //     console.log('already exists')
+  //     console.log(data);
+  //     res.json('the user already exists');
+  //   }
+  // })
+  // .catch(err => {
+  //   console.log('error found => ', err);
+  // });
+  res.json('Checkout me im doing ok');
 })
 app.listen(process.env.PORT || 4000);
