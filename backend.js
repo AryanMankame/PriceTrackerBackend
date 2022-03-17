@@ -59,18 +59,18 @@ app.post('/register',(req, res) => {
   // });
   database('register').where({
     email:email,
-    Password:password,
+    password:password,
   }).then((data) => {
       if(data.length === 0){
       console.log('data ->',data);
       database('register').insert({
         email:email,
-        Password:password,
+        password:password,
         name:name
       }).then(response => {console.log('data added to register' + response)});
       database('login').insert({
         email:email,
-        Password:password,
+        password:password,
       }).then(response => {res.json('Successful')}).catch(err => console.log('error faced',err));
     }
     else{
