@@ -36,51 +36,51 @@ app.post('/register',(req, res) => {
       return 2;
   }
   console.log(name,'=>',email,'=>',password);
-  database.transact(trx => {
-      trx.insert({
-        name:NamedNodeMap,
-        email:email,
-        password:password,
-      })
-      .into('register')
-      .returning('email')
-      .then(loginEmail => {
-        return trx('login')
-        .returning('*')
-        .insert({
-          email: email,
-          password:password
-        })
-        .then(user => res.json(user[0]))
-        .then(trx.commit)
-        .catch(trx.rollback)
-      })
-      .catch(err => console.log('unable to register'));
-  });
-  // database('register').where({
-  //   email:email,
-  //   Password:password,
-  // }).then((data) => {
-  //     if(data.length === 0){
-  //     console.log('data ->',data);
-  //     database('register').insert({
+  // database.transact(trx => {
+  //     trx.insert({
+  //       name:NamedNodeMap,
   //       email:email,
-  //       Password:password,
-  //       name:name
-  //     }).then(response => {console.log('data added to register' + response)});
-  //     database('login').insert({
-  //       email:email,
-  //       Password:password,
-  //     }).then(response => {res.json('Successful')}).catch(err => console.log('error faced',err));
-  //   }
-  //   else{
-  //     console.log('already exists')
-  //     console.log(data);
-  //     res.json('the user already exists');
-  //   }
-  // })
-  // .catch(err => {
-  //   console.log('error found => ', err);
+  //       password:password,
+  //     })
+  //     .into('register')
+  //     .returning('email')
+  //     .then(loginEmail => {
+  //       return trx('login')
+  //       .returning('*')
+  //       .insert({
+  //         email: email,
+  //         password:password
+  //       })
+  //       .then(user => res.json(user[0]))
+  //       .then(trx.commit)
+  //       .catch(trx.rollback)
+  //     })
+  //     .catch(err => console.log('unable to register'));
   // });
+  database('register').where({
+    email:email,
+    Password:password,
+  }).then((data) => {
+      if(data.length === 0){
+      console.log('data ->',data);
+      database('register').insert({
+        email:email,
+        Password:password,
+        name:name
+      }).then(response => {console.log('data added to register' + response)});
+      database('login').insert({
+        email:email,
+        Password:password,
+      }).then(response => {res.json('Successful')}).catch(err => console.log('error faced',err));
+    }
+    else{
+      console.log('already exists')
+      console.log(data);
+      res.json('the user already exists');
+    }
+  })
+  .catch(err => {
+    console.log('error found => ', err);
+  });
 })
 app.listen(process.env.PORT || 4000);
