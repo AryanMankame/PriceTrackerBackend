@@ -1,0 +1,1 @@
+create table userInfo(email varchar(50),url varchar(500),price INT,Primary Key (email,url));

@@ -1,16 +1,34 @@
 from time import sleep
 from bs4 import BeautifulSoup
 import requests
+import sys
 # We will try to pass the link to the database
+def stringConvert(str):
+    ans = ''
+    for i in str:
+        if (i >= '0' and i <= '9'):
+            ans += i 
+    ans = int(ans)
+    return ans
+
 def scrape():
-    url = "https://www.flipkart.com/motorola-zx2-100-cm-40-inch-full-hd-led-smart-android-tv-dolby-atmos-vision/p/itm224f48c542525?pid=TVSFSK2E5JHFPHR5&lid=LSTTVSFSK2E5JHFPHR5EYGGN1&marketplace=FLIPKART&store=ckf%2Fczl&srno=b_1_1&otracker=browse&fm=Search&iid=fc5c1185-7f1c-43ef-89b9-5112b70f5e31.TVSFSK2E5JHFPHR5.SEARCH&ppt=sp&ppn=sp&ssid=otleyk7kuo0000001647349597520"
+    url = sys.argv[1]
     r = requests.get(url)
-    print(url)
     htmlContent = r.content
     soup = BeautifulSoup(htmlContent,'html.parser')
-    # print(soup)
     price = soup.select("._30jeq3._16Jk6d")
-    print(price[0].get_text())
-while True:
-    scrape()
-    sleep(3)
+    desc = soup.select(".B_NuCI")
+    p = price[0].get_text()
+    p = stringConvert(p)
+    q = desc[0].get_text()
+    photourl = soup.select("._396cs4._2amPTt._3qGmMb._3exPp9")
+    print(p)
+    print(photourl[0]['src'])
+    print(q)
+    return [p,q]
+m = scrape()
+# while True:
+#     scrape()
+#     sleep(3)
+# for i in sys.argv:
+#     print(i)
